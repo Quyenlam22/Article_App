@@ -25,7 +25,8 @@ export const typeDefs = gql`
 
     # [POST, PUT, PATCH]
     type Mutation {
-        createArticle(article: ArticleInput): Article
+        createArticle(article: ArticleInput): Article,
+        deletedArticle(id: ID): String
     }
 
 `;
