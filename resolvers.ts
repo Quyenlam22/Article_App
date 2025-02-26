@@ -9,6 +9,16 @@ export const resolvers = {
             });
 
             return articles;
+        },
+        getArticle: async (_: any, args: any) => {
+            const { id } = args;
+
+            const article = await Article.findOne({
+                _id: id,
+                deleted: false
+            });
+
+            return article;
         }
     }
 };

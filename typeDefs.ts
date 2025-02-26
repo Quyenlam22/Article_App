@@ -3,14 +3,16 @@ import { gql } from "apollo-server-express";
 // typeDefs-models
 export const typeDefs = gql`
     type Article {
-    id: ID,
-    title: String,
-    avatar: String,
-    description: String,
+        id: ID,
+        title: String,
+        avatar: String,
+        description: String,
+        categoryId: String
     }
 
     type Query{
         # hello: String,
         getListArticle: [Article],
+        getArticle(id: ID): Article,
     }
 `;
