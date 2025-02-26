@@ -1,5 +1,6 @@
 import express, {Express} from "express";
 import env from "dotenv";
+import * as database from "./config/database";
 
 env.config();
 
@@ -10,6 +11,7 @@ const port: string | number = process.env.PORT || 3000;
 // app.use(express.json());
 // app.use(express.urlencoded({extended: true}));
 
+database.connect();
 
 // RestAPI
 app.get("/articles", (req, res) => {
