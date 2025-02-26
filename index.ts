@@ -1,30 +1,51 @@
-import express, {Express} from "express";
-import env from "dotenv";
+import express, { Express } from "express";
+import dotenv from "dotenv";
 import * as database from "./config/database";
-import Article from "./models/article.model";
+import { ApolloServer, gql } from "apollo-server-express";
 
-env.config();
+dotenv.config();
 
-const app: Express = express();
-const port: string | number = process.env.PORT || 3000;
+// GraphQL
+const startServer = async () => {
+    const app: Express = express();
+    const port: string | number = process.env.PORT || 3000;
 
-//Body-parse
-// app.use(express.json());
-// app.use(express.urlencoded({extended: true}));
+    database.connect();
 
-database.connect();
+    // typeDefs-models
+    const typeDefs = gql`
+        type Query{
+            hello: String
+        }
+    `;
 
-// RestAPI
-app.get("/articles", async (req, res) => {
-    const articles = await Article.find({
-        deleted: false
+    // resolver-controller
+    const resolvers = {
+        Query: {
+            hello: () => {
+                return "Hello World!";
+            }
+        }
+    };
+
+    const apolloServer = new ApolloServer({
+        typeDefs,
+        resolvers
     });
 
-    res.json({
-        articles: articles
-    });
-});
+    await apolloServer.start();
 
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
-})
+    app.use(express.json());
+
+    apolloServer.applyMiddleware({
+        app: app as any,
+        path: "/graphql"
+    });
+
+    app.listen(port, () => {
+        console.log(`App listening on port ${port}`);
+    })
+};
+
+startServer();
+
