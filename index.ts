@@ -1,6 +1,7 @@
 import express, {Express} from "express";
 import env from "dotenv";
 import * as database from "./config/database";
+import Article from "./models/article.model";
 
 env.config();
 
@@ -14,9 +15,13 @@ const port: string | number = process.env.PORT || 3000;
 database.connect();
 
 // RestAPI
-app.get("/articles", (req, res) => {
+app.get("/articles", async (req, res) => {
+    const articles = await Article.find({
+        deleted: false
+    });
+
     res.json({
-        articles: []
+        articles: articles
     });
 });
 
