@@ -4,7 +4,7 @@ const articleSchema = new mongoose.Schema({
     title: String,
     avatar: String,
     description: String,
-    articles: String,
+    categoryId: String,
     deleted: {
         type: Boolean,
         default: false

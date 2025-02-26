@@ -1,7 +1,9 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import * as database from "./config/database";
-import { ApolloServer, gql } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
+import { typeDefs } from "./typeDefs";
+import { resolvers } from "./resolvers";
 
 dotenv.config();
 
@@ -11,23 +13,7 @@ const startServer = async () => {
     const port: string | number = process.env.PORT || 3000;
 
     database.connect();
-
-    // typeDefs-models
-    const typeDefs = gql`
-        type Query{
-            hello: String
-        }
-    `;
-
-    // resolver-controller
-    const resolvers = {
-        Query: {
-            hello: () => {
-                return "Hello World!";
-            }
-        }
-    };
-
+    
     const apolloServer = new ApolloServer({
         typeDefs,
         resolvers
