@@ -49,15 +49,15 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const database = __importStar(require("./config/database"));
 const apollo_server_express_1 = require("apollo-server-express");
-const typeDefs_1 = require("./typeDefs");
 const resolvers_1 = require("./resolvers");
+const index_typeDefs_1 = require("./typeDefs/index.typeDefs");
 dotenv_1.default.config();
 const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
     const app = (0, express_1.default)();
     const port = process.env.PORT || 3000;
     database.connect();
     const apolloServer = new apollo_server_express_1.ApolloServer({
-        typeDefs: typeDefs_1.typeDefs,
+        typeDefs: index_typeDefs_1.typeDefs,
         resolvers: resolvers_1.resolvers,
         introspection: true,
         context: ({ req }) => {
