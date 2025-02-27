@@ -3,6 +3,7 @@ import Category from "./models/category.model";
 
 // resolver-controller
 export const resolvers = {
+    // # [GET]
     Query: {
         getListArticle: async () => {
             const articles = await Article.find({
@@ -41,6 +42,17 @@ export const resolvers = {
         }
     },
 
+    Article: {
+        category: async (article: any) => {
+            const category = await Category.findOne({
+                _id: article.categoryId
+            });
+
+            return category;
+        }
+    },
+
+    // # [POST, PUT, PATCH]
     Mutation: {
         createArticle: async(_: any, args: any) => {
             const { article } = args;
