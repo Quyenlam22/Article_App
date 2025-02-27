@@ -10,11 +10,20 @@ export const typeDefs = gql`
         categoryId: String
     }
 
+    type Category {
+        id: ID,
+        title: String,
+        avatar: String,
+    }
+
     # [GET]
     type Query {
         # hello: String,
         getListArticle: [Article],
         getArticle(id: ID): Article,
+
+        getListCategory: [Category],
+        getCategory(id: ID): Category
     }
 
     input ArticleInput {
