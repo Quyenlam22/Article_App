@@ -53,7 +53,7 @@ export const resolvers = {
         deletedArticle: async (_: any, args: any) => {
             const { id } = args;
 
-            const article = await Article.updateOne({
+            await Article.updateOne({
                 _id: id,
             }, {
                 deleted: true,
@@ -70,6 +70,40 @@ export const resolvers = {
             }, article);
 
             const record = await Article.findOne({
+                _id: id,
+            });
+
+            return record;
+        },
+
+        createCategory: async(_: any, args: any) => {
+            const { category } = args;
+
+            const record = new Category(category);
+            record.save();
+
+            return record;
+        },
+        deletedCategory: async (_: any, args: any) => {
+            const { id } = args;
+
+            await Category.updateOne({
+                _id: id,
+            }, {
+                deleted: true,
+                deletedAt: new Date()
+            });
+
+            return "Delete Successfully!";
+        },
+        updateCategory: async (_: any, args: any) => {
+            const { id, category } = args;
+
+            await Category.updateOne({
+                _id: id,
+            }, category);
+
+            const record = await Category.findOne({
                 _id: id,
             });
 

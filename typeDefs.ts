@@ -32,11 +32,20 @@ export const typeDefs = gql`
         description: String,
     }
 
+    input CategoryInput {
+        title: String,
+        avatar: String,
+    }
+
     # [POST, PUT, PATCH]
     type Mutation {
         createArticle(article: ArticleInput): Article,
         deletedArticle(id: ID): String,
         updateArticle(id: ID, article: ArticleInput): Article,
+
+        createCategory(category: CategoryInput): Category,
+        deletedCategory(id: ID): String,
+        updateCategory(id: ID, category: CategoryInput): Category,
     }
 
 `;
