@@ -6,15 +6,15 @@ import md5 from "md5";
 export const resolversUser = {
     // # [POST, PUT, PATCH]
     Mutation: {
-        registerUser: async(_: any, args: any) => {
+        registerUser: async (_: any, args: any) => {
             const { user } = args;
-            
+
             const existUser = await User.findOne({
                 email: user.email,
                 deleted: false
             })
-            
-            if(existUser) {
+
+            if (existUser) {
                 return {
                     code: 400,
                     message: "Email existed!"
@@ -30,10 +30,42 @@ export const resolversUser = {
                     code: "200",
                     message: "Success!",
                     id: data.id,
+                    fullName: data.fullName,
+                    email: data.email,
                     token: data.token
                 });
             }
         },
-        
+        loginUser: async (_: any, args: any) => {
+            const { user } = args;
+
+            const infoUser = await User.findOne({
+                email: user.email,
+                deleted: false
+            })
+
+            if (!infoUser) {
+                return {
+                    code: 400,
+                    message: "Email not exist!"
+                };
+            }
+
+            if (md5(user.password) !== infoUser.password) {
+                return {
+                    code: 400,
+                    message: "Error password!"
+                };
+            }
+
+            return ({
+                code: "200",
+                message: "Success!",
+                id: infoUser.id,
+                fullName: infoUser.fullName,
+                email: infoUser.email,
+                token: infoUser.token
+            });
+        },
     }
 };
