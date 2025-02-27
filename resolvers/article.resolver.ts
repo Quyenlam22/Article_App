@@ -12,7 +12,8 @@ export const resolversArticle = {
                 currentPage, 
                 limitItems,
                 filterKey,
-                filterValue
+                filterValue,
+                keyword
             } = args;
 
             const find: {[key: string]: any} = {
@@ -29,9 +30,15 @@ export const resolversArticle = {
             //Pagination
             const skip = (currentPage - 1) * limitItems;
 
-            //FilterStatus
+            //Filter
             if(filterKey && filterValue) {
                 find[filterKey] = filterValue
+            }
+
+            //Search
+            if(keyword){
+                const keywordRegex = new RegExp(keyword, "i");
+                find["title"] = keywordRegex;
             }
 
             const articles = await Article.find(find).sort(sort).limit(limitItems).skip(skip);
