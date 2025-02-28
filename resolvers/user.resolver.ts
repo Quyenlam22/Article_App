@@ -4,6 +4,34 @@ import md5 from "md5";
 
 // resolver-controller
 export const resolversUser = {
+    // [GET]
+    Query: {
+        getUser: async (_: any, args: any) => {
+            const { id } = args;
+
+            const infoUser = await User.findOne({
+                _id: id,
+                deleted: false
+            });
+
+            if(infoUser) {
+                return ({
+                    code: "200",
+                    message: "Success!",
+                    id: infoUser.id,
+                    fullName: infoUser.fullName,
+                    email: infoUser.email,
+                    token: infoUser.token
+                });
+            } else {
+                return {
+                    code: 400,
+                    message: "Error!"
+                };
+            }
+        }
+    },
+
     // # [POST, PUT, PATCH]
     Mutation: {
         registerUser: async (_: any, args: any) => {
