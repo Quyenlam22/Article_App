@@ -6,11 +6,9 @@ import md5 from "md5";
 export const resolversUser = {
     // [GET]
     Query: {
-        getUser: async (_: any, args: any) => {
-            const { id } = args;
-
+        getUser: async (_: any, args: any, context: any) => {
             const infoUser = await User.findOne({
-                _id: id,
+                token: context["user"].token,
                 deleted: false
             });
 

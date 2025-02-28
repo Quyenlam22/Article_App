@@ -14,7 +14,15 @@ exports.typeDefsArticle = (0, apollo_server_express_1.gql) `
     # [GET]
     type Query {
         # hello: String,
-        getListArticle: [Article],
+        getListArticle(
+            sortKey: String, 
+            sortValue: String,
+            currentPage: Int = 1,
+            limitItems: Int = 2,
+            filterKey: String,
+            filterValue: String,
+            keyword: String
+        ): [Article],
         getArticle(id: ID): Article,
     }
 
